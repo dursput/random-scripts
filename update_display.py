@@ -54,3 +54,23 @@ if __name__ == '__main__':
             display.print_settings()
     else:
         print('Error: Must provide a mode (normal or gaming)')
+"""
+# https://stackoverflow.com/questions/8705814/get-display-count-and-resolution-for-each-display-in-python-without-xrandr
+from Xlib import X, display
+from Xlib.ext import randr
+
+d = display.Display()
+s = d.screen()
+window = s.root.create_window(0, 0, 1, 1, 1, s.root_depth)
+res = randr.get_screen_resources(window)
+for mode in res.modes:
+    w, h = mode.width, mode.height
+    print(w, h)
+
+# https://stackoverflow.com/questions/21074788/how-do-i-get-a-list-of-all-valid-screen-resolutions-in-python
+import ctypes
+
+sdl_dll = ctypes.CDLL('sdl.dll')
+modes = sdl_dll.SDL_ListModes(None, None)
+print(modes)
+"""
