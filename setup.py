@@ -1,4 +1,3 @@
-
 # https://stackoverflow.com/a/50468400
 from setuptools import setup
 
