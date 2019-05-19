@@ -7,17 +7,17 @@ from win32api import (
 import sys
 
 class DisplaySettings():
-    def __init__(self) -> None:
+    def __init__(self):
         # Retrieve Display Device settings.
         self.settings = EnumDisplaySettings()
         # Manually set resolution since it's hard-coded to 640x480.
         self.settings.PelsWidth = GetSystemMetrics(0)
         self.settings.PelsHeight = GetSystemMetrics(1)
 
-    def __update(self) -> None:
+    def __update(self):
         ChangeDisplaySettings(self.settings, 0)
     
-    def __set_refresh(self, freq: int) -> None:
+    def __set_refresh(self, freq: int):
         self.settings.DisplayFrequency = freq
         self.__update()
 
@@ -27,9 +27,9 @@ class DisplaySettings():
 
     def __get_refresh(self) -> int:
         # Return current refresh rate (in Hz)
-        return (self.settings.DisplayFrequency)
+        return self.settings.DisplayFrequency
 
-    def toggle(self, mode: str) -> None:
+    def toggle(self, mode: str):
         # Switch between 'normal' (144Hz) and 'gaming' (60Hz)
         _success = True
         if mode == 'normal':
@@ -41,19 +41,19 @@ class DisplaySettings():
             _success = False
         return _success
 
-    def print_settings(self) -> None:
+    def print_settings(self):
         print('Resolution: %dx%d' % self.__get_resolution())
         print('Refresh rate: %dHz' % self.__get_refresh())
 
-
-if __name__ == '__main__':
+def run():
     if len(sys.argv) > 1:
         display = DisplaySettings()
         if display.toggle(str(sys.argv[1])):
             print('New settings:')
             display.print_settings()
     else:
-        print('Error: Must provide a mode (normal or gaming)')
+        print('Error: Must provide a mode (normal | gaming)')
+
 """
 # https://stackoverflow.com/questions/8705814/get-display-count-and-resolution-for-each-display-in-python-without-xrandr
 from Xlib import X, display
